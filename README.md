@@ -1,56 +1,42 @@
-# Terraform VPC Creation and Destruction
+### AWS VPC Management with Terraform
 
-This repository contains Terraform configurations for creating and destroying an AWS Virtual Private Cloud (VPC).
+This repository includes Terraform configurations designed for managing an AWS Virtual Private Cloud (VPC), allowing for both creation and destruction of the infrastructure.
 
-## Prerequisites
+**Prerequisites**
 
-Before using this Terraform configuration, ensure that you have the following prerequisites set up:
+Before utilizing these Terraform configurations, ensure you have the following prerequisites in place:
 
-1. **AWS Account:** You need an AWS account to create and manage resources.
-2. **Terraform Installed:** Ensure that Terraform is installed on your local machine. You can download it from [Terraform's official website](https://www.terraform.io/downloads.html).
+- **AWS Account:** You must possess an active AWS account to create and manage resources.
+- **Terraform Installation:** Make sure Terraform is installed on your local machine. You can download it from [Terraform's official website](https://www.terraform.io/downloads.html).
 
-## Configuration
+**Configuration**
 
-### AWS S3 Bucket for Terraform Backend
+- **Setting up AWS S3 Backend for Terraform:** To manage Terraform state, configure an S3 bucket in your AWS account named `terraform-backend-s3-github`. If this name is unavailable, create a bucket with a different name and update the `terraform_vpc/providers.tf` file accordingly.
 
-Create an S3 bucket in your AWS account named `terraform-backend-s3-github` to be used as the backend for Terraform state. If this name is not available, create a new one.
+	```hcl
+	backend "s3" {
+	  bucket = "bucket_name"
+	  key    = "dev/terraform.tfstate"
+	  region = "us-east-1"
+	}
+	```
 
-Update the `terraform_vpc/providers.tf` file with the correct bucket name.
+**Usage**
 
-```tf
-backend "s3" {
-    bucket = "bucket_name"
-    key    = "dev/terraform.tfstate"
-    region = "us-east-1"
-  }
-```
-
-## Usage
-
-1. **Initialize Terraform:**
-
-   Run the initialization command.
+- **Initialize Terraform:** Begin by initializing Terraform with the following command:
 
    ```bash
    terraform init
    ```
 
-2. **Create VPC:**
-
-   To create the VPC, follow the relevant Terraform command.
+- **Create the VPC:** Execute the Terraform command below to create the VPC infrastructure:
 
    ```bash
    terraform apply --auto-approve
    ```
 
-3. **Destroy VPC:**
-
-   To destroy the VPC and associated resources, follow the relevant Terraform command.
+- **Destroy the VPC:** When no longer needed, destroy the VPC and associated resources using the command:
 
    ```bash
    terraform destroy --auto-approve
    ```
-
-## Cleanup
-
-After you have finished using the infrastructure, it's recommended to destroy it to avoid incurring unnecessary charges. Follow the "Destroy VPC" instructions mentioned above.
